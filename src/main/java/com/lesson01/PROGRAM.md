@@ -285,8 +285,5 @@ Lessons are scheduled **once per week**. Each week consists of:
     - Prepare data via API
     - Execute UI steps via Selenide
     - Validate via API and/or database (if available)
-- Polish `README.md` so the project can be used as a portfolio piece.
 
----
 
-This `PROGRAM.md` should live in the root of your mentorship repository so both you and your mentee can track progress week by week.
