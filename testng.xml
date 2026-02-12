@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="Calculator Suite">
+
+    <test name="Calculator Positive Testing">
+        <groups>
+            <run>
+                <include name="positive"/>
+            </run>
+        </groups>
+
+        <classes>
+            <class name="lesson01.CalculatorTest"/>
+        </classes>
+    </test>
+
+    <test name="Calculator Negative Testing">
+        <groups>
+            <run>
+                <include name="negative"/>
+            </run>
+        </groups>
+
+        <classes>
+            <class name="lesson01.CalculatorNegativeTest"/>
+        </classes>
+    </test>
+
+</suite>
