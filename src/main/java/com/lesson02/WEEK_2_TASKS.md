@@ -56,7 +56,7 @@ This homework reinforces concepts from Week 2:
 ## Task 3: Data Processing Logic
 
 **What you need to do:**
-1. Open the test class: `src/test/java/org/example/tests/PeopleTests.java`
+1. Open the test class: `src/test/java/lesson02/PeopleTests.java`
 2. Implement the following private static methods in the test class (or in a helper class):
 
 ### 3a. Calculate Average Age
@@ -103,7 +103,7 @@ private static Person findYoungestPerson(List<Person> people) {
 ## Task 4: Implement DataProviders
 
 **What you need to do:**
-1. Open `src/test/java/org/example/tests/PeopleTests.java`
+1. Open `src/test/java/lesson02/PeopleTests.java`
 2. Implement the following DataProviders:
 
 ### 4a. CSV DataProvider
@@ -153,7 +153,7 @@ public Object[][] getCombinedPeopleData() throws IOException {
 ## Task 5: Implement Test Methods
 
 **What you need to do:**
-Implement the following test methods in `src/test/java/org/example/tests/PeopleTests.java`:
+Implement the following test methods in `src/test/java/lesson02/PeopleTests.java`:
 
 ### 5a. Test Individual CSV Records
 ```java
