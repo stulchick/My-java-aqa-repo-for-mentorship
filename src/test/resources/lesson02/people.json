@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Robert Plant",
+    "age": 77,
+    "email": "robert.plant@example.com"
+  },
+  {
+    "name": "Jimmy Page",
+    "age": 82,
+    "email": "jimmy.page@example.com"
+  },
+  {
+    "name": "John Paul Jones",
+    "age": 28,
+    "email": "jp.jones@example.com"
+  },
+  {
+    "name": "John Bonham",
+    "age": 30,
+    "email": "john.bonham@example.com"
+  }
+]
