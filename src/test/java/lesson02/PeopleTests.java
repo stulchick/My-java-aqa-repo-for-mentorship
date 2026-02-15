@@ -3,6 +3,7 @@ package lesson02;
 import com.beust.ah.A;
 import com.lesson02.models.Person;
 import com.lesson02.utils.CSVReader;
+import com.lesson02.utils.JSONReader;
 import com.lesson02.utils.YAMLReader;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -28,6 +29,21 @@ public class PeopleTests {
     // ============================================
     // DataProviders
     // ============================================
+    /**
+     * DataProvider that reads people data from JSON file.
+     * Returns 4 people
+     */
+    @DataProvider(name = "peopleFromJSON")
+    public Object[][] getPeopleFromJSON() throws IOException {
+        List<Person> persons = JSONReader.readPersonsFromJSON("src/test/resources/lesson02/people.json");
+        Object[][] data = new Object[persons.size()][1];
+
+        for (int i = 0; i < persons.size(); i++) {
+            data[i][0] = persons.get(i);
+        }
+
+        return data;
+    }
 
     /**
      * DataProvider that reads people data from CSV file.
@@ -84,6 +100,33 @@ public class PeopleTests {
         return data;
     }
 
+    /**
+     * DataProvider that combines people data from both CSV, YAML and JSON files.
+     * Returns 8 people total
+     */
+    @DataProvider(name = "combinedPeopleAll")
+    public Object[][] getCombinedPeopleDataFromAll() throws IOException {
+        List<Person> allPersons = new ArrayList<>();
+
+        // Add CSV data
+        allPersons.addAll(CSVReader.readPersonsFromCSV("src/test/resources/lesson02/people.csv"));
+
+        // Add YAML data
+        allPersons.addAll(YAMLReader.readPersonsFromYAML("src/test/resources/lesson02/people.yaml"));
+
+        //Add JSON data
+
+        allPersons.addAll(JSONReader.readPersonsFromJSON("src/test/resources/lesson02/people.json"));
+
+        Object[][] data = new Object[allPersons.size()][1];
+
+        for (int i = 0; i < allPersons.size(); i++) {
+            data[i][0] = allPersons.get(i);
+        }
+
+        return data;
+    }
+
     // ============================================
     // Test Methods - Data Validation
     // ============================================
@@ -130,6 +173,24 @@ public class PeopleTests {
         Assert.assertTrue(person.getAge() < 150, "Age should be realistic");
 
         System.out.println("✓ YAML person validation passed: " + person.getName());
+    }
+
+    @Test(dataProvider = "peopleFromJSON", groups = "smoke")
+    public void testJSONPersonData(Person person) {
+        System.out.println("Testing JSON person: " + person);
+
+        // Validate that all fields are populated
+        Assert.assertNotNull(person.getName(), "Name should not be null");
+        Assert.assertFalse(person.getName().isEmpty(), "Name should not be empty");
+
+        Assert.assertNotNull(person.getEmail(), "Email should not be null");
+        Assert.assertFalse(person.getEmail().isEmpty(), "Email should not be empty");
+
+        // Validate age is positive
+        Assert.assertTrue(person.getAge() > 0, "Age should be positive");
+        Assert.assertTrue(person.getAge() < 150, "Age should be realistic");
+
+        System.out.println("✓ JSON person validation passed: " + person.getName());
     }
 
     // ============================================
@@ -222,6 +283,18 @@ public class PeopleTests {
      */
     @Test(dataProvider = "combinedPeople", groups = "smoke")
     public void testCombinedPersonData(Person person) {
+        System.out.println("Combined data person: " + person);
+
+        // Validate that all fields are populated
+        Assert.assertNotNull(person.getName(), "Name should not be null");
+        Assert.assertTrue(person.getAge() > 0, "Age should be positive");
+        Assert.assertNotNull(person.getEmail(), "Email should not be null");
+
+        System.out.println("✓ Combined data validation passed: " + person.getName());
+    }
+
+    @Test(dataProvider = "combinedPeopleAll", groups = "smoke")
+    public void testCombinedPersonDataAll(Person person) {
         System.out.println("Combined data person: " + person);
 
         // Validate that all fields are populated
