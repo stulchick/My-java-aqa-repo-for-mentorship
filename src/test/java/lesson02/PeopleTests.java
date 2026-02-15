@@ -233,10 +233,10 @@ public class PeopleTests {
 
 
     /**
-     * Test to verify the first/last person in sorted list
+     * Test to verify the first/last person in sorted list ASC
      * Group: smoke (quick validation tests)
      */
-    @Test(dataProvider = "combinedPeople", groups = "regression")
+    @Test(groups = "regression")
     public void testFirstLastPersonForAscSorting() throws IOException {
         // Load all people from both sources
         List<Person> allPeople = new ArrayList<>();
@@ -257,6 +257,33 @@ public class PeopleTests {
         //Compare First and Last Person with Real Youngest and Real Oldest
         Assert.assertEquals(firstPerson, expectedYoungest, "First person in ASC list should be the youngest");
         Assert.assertEquals(lastPerson, expectedOldest, "Last person in ASC list should be the oldest");
+    }
+
+    /**
+     * Test to verify the first/last person in sorted list DESC
+     * Group: smoke (quick validation tests)
+     */
+    @Test(groups = "regression")
+    public void testFirstLastPersonForDescSorting() throws IOException {
+        // Load all people from both sources
+        List<Person> allPeople = new ArrayList<>();
+        allPeople.addAll(CSVReader.readPersonsFromCSV("src/test/resources/lesson02/people.csv"));
+        allPeople.addAll(YAMLReader.readPersonsFromYAML("src/test/resources/lesson02/people.yaml"));
+
+        //Sort list with my method
+        Object[][] ascData = getSortedPeopleList(allPeople, SortOrder.DESC);
+
+        // Find youngest and oldest persons
+        Person expectedYoungest = findYoungestPerson(allPeople);
+        Person expectedOldest = findOldestPerson(allPeople);
+
+        // Find first and last element in Sorted list
+        Person firstPerson = (Person) ascData[0][0];
+        Person lastPerson = (Person) ascData[ascData.length - 1][0];
+
+        //Compare First and Last Person with Real Youngest and Real Oldest
+        Assert.assertEquals(firstPerson, expectedOldest, "First person in ASC list should be the oldest");
+        Assert.assertEquals(lastPerson, expectedYoungest, "Last person in ASC list should be the youngest");
     }
 
     // ============================================
