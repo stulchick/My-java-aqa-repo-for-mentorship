@@ -231,6 +231,34 @@ public class PeopleTests {
         System.out.println("✓ Combined data validation passed: " + person.getName());
     }
 
+
+    /**
+     * Test to verify the first/last person in sorted list
+     * Group: smoke (quick validation tests)
+     */
+    @Test(dataProvider = "combinedPeople", groups = "regression")
+    public void testFirstLastPersonForAscSorting() throws IOException {
+        // Load all people from both sources
+        List<Person> allPeople = new ArrayList<>();
+        allPeople.addAll(CSVReader.readPersonsFromCSV("src/test/resources/lesson02/people.csv"));
+        allPeople.addAll(YAMLReader.readPersonsFromYAML("src/test/resources/lesson02/people.yaml"));
+
+        //Sort list with my method
+        Object[][] ascData = getSortedPeopleList(allPeople, SortOrder.ASC);
+
+        // Find youngest and oldest persons
+        Person expectedYoungest = findYoungestPerson(allPeople);
+        Person expectedOldest = findOldestPerson(allPeople);
+
+        // Find first and last element in Sorted list
+        Person firstPerson = (Person) ascData[0][0];
+        Person lastPerson = (Person) ascData[ascData.length - 1][0];
+
+        //Compare First and Last Person with Real Youngest and Real Oldest
+        Assert.assertEquals(firstPerson, expectedYoungest, "First person in ASC list should be the youngest");
+        Assert.assertEquals(lastPerson, expectedOldest, "Last person in ASC list should be the oldest");
+    }
+
     // ============================================
     // Helper Methods - Data Processing Logic
     // ============================================
@@ -284,5 +312,37 @@ public class PeopleTests {
         return people.stream()
                 .min(Comparator.comparingInt(Person::getAge))
                 .orElse(null);
+    }
+
+
+    public enum SortOrder{
+    ASC, DESC
+    }
+    /**
+     * Combine all People in one List and sort it asc/desc
+     *
+     * @param  people, order  how we will sort users
+     * @return asc/desc Object of All persons
+     */
+    private static Object[][] getSortedPeopleList(List<Person> people, SortOrder order) throws IOException {
+        if (people == null || people.isEmpty()) {
+            return null;
+        }
+
+        if(order == SortOrder.ASC){
+           people.sort(Comparator.comparingInt(Person::getAge)); // asc list
+        }
+
+        else if (order == SortOrder.DESC){
+            people.sort(Comparator.comparingInt(Person::getAge).reversed()); // desc list
+        }
+
+        Object[][] data = new Object[people.size()][1];
+
+        for (int i = 0; i < people.size(); i++) {
+            data[i][0] = people.get(i);
+        }
+
+        return data;
     }
 }
