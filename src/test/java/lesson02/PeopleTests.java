@@ -1,6 +1,5 @@
 package lesson02;
 
-import com.beust.ah.A;
 import com.lesson02.models.Person;
 import com.lesson02.utils.CSVReader;
 import com.lesson02.utils.JSONReader;
