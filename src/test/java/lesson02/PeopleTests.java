@@ -1,5 +1,6 @@
 package lesson02;
 
+import com.beust.ah.A;
 import com.lesson02.models.Person;
 import com.lesson02.utils.CSVReader;
 import com.lesson02.utils.YAMLReader;
@@ -233,6 +234,7 @@ public class PeopleTests {
 
 
     /**
+     * Challenges 1
      * Test to verify the first/last person in sorted list ASC
      * Group: smoke (quick validation tests)
      */
@@ -260,6 +262,7 @@ public class PeopleTests {
     }
 
     /**
+     * Challenges 1
      * Test to verify the first/last person in sorted list DESC
      * Group: smoke (quick validation tests)
      */
@@ -284,6 +287,31 @@ public class PeopleTests {
         //Compare First and Last Person with Real Youngest and Real Oldest
         Assert.assertEquals(firstPerson, expectedOldest, "First person in ASC list should be the oldest");
         Assert.assertEquals(lastPerson, expectedYoungest, "Last person in ASC list should be the youngest");
+    }
+
+    /**
+     * Challenge 2
+     * Test to filter people older 30 and verifies the count is correct
+     */
+    @Test(groups = "regression")
+    public void testPeopleOlderThan30 () throws IOException {
+        //Load all peoples
+        List<Person> allPeople = new ArrayList<>();
+        allPeople.addAll(CSVReader.readPersonsFromCSV("src/test/resources/lesson02/people.csv"));
+        allPeople.addAll(YAMLReader.readPersonsFromYAML("src/test/resources/lesson02/people.yaml"));
+
+        //Filter allPeople list and if age >= 30 to add back to list
+        List<Person> olderThan30 = new ArrayList<>();
+        for (Person person : allPeople){
+            if (person.getAge() > 30){
+                olderThan30.add(person);
+            }
+        }
+
+        // print number of people and do assertion
+        System.out.println("Older than 30 people found:" + olderThan30.size());
+
+        Assert.assertEquals(olderThan30.size(), 8, "Number of older people wasn't match");
     }
 
     // ============================================
